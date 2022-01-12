@@ -540,34 +540,34 @@ end
 # 71 none?
 # 72 one?
 # 73 partition
-# 74 reduce_inject
-# 75 reject
 
-def m76
-    a = [0, 1, 2, source(76.1)]
-    a.replace([source(76.2)])
-    sink(a[0]) # $ hasValueFlow=76.2
-end
-
-# 77 reverse_each
-# 78 select
-# 79 slice_after
-# 80 slice_before
-# 81 slice_when
-# 82 sort
-# 83 sort_by
-
-def m84
-    a = [0, 1, source(84.1)]
-    a.prepend(2, 3, source(84.2))
+def m74
+    a = [0, 1, source(74.1)]
+    a.prepend(2, 3, source(74.2))
     sink(a[0])
     sink(a[1])
-    sink(a[2]) # $ hasValueFlow=84.2
+    sink(a[2]) # $ hasValueFlow=74.2
     sink(a[3])
     sink(a[4])
-    sink(a[5]) # $ hasValueFlow=84.1
+    sink(a[5]) # $ hasValueFlow=74.1
 end
 
+# 75 reduce_inject
+# 76 reject
+
+def m77
+    a = [0, 1, 2, source(77.1)]
+    a.replace([source(77.2)])
+    sink(a[0]) # $ hasValueFlow=77.2
+end
+
+# 78 reverse_each
+# 79 select
+# 80 slice_after
+# 81 slice_before
+# 82 slice_when
+# 83 sort
+# 84 sort_by
 # 85 sum
 # 86 take
 # 87 take_while
