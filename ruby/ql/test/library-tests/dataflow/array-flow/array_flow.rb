@@ -521,7 +521,14 @@ def m62
     sink(b[0]) # $ hasValueFlow=62.2
 end
 
-# 63 group_by
+def m63
+    a = [0, 1, 2, source(63.1)]
+    b = a.group_by do |x|
+        sink x # $ hasValueFlow=63.1
+        source 63.2
+    end
+    sink b
+end
 
 def m64
     a = [0, 1, 2, source(64)]

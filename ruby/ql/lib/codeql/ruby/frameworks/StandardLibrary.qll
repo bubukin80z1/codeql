@@ -1546,7 +1546,17 @@ module Enumerable {
     }
   }
 
-  // TODO: Implement `group_by` when we have flow through hashes
+  private class GroupBySummary extends SimpleSummarizedCallable {
+    GroupBySummary() { this = "group_by" }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      // TODO: Add flow to return value once we have flow through hashes
+      input = "ArrayElement of Receiver" and
+      output = "Parameter[0] of BlockArgument" and
+      preservesValue = true
+    }
+  }
+
   private class SelectSummary extends SimpleSummarizedCallable {
     // `find_all` and `filter` are aliases of `select`.
     SelectSummary() { this = ["select", "find_all", "filter"] }
