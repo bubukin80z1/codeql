@@ -537,54 +537,62 @@ def m64
     end
 end
 
-# 64 map
-# 65 max
-# 66 max_by
-# 67 min
-# 68 min_by
-# 69 minmax
-# 70 minmax_by
-# 71 none?
-# 72 one?
-# 73 partition
+def m65
+    a = [0, 1, source(65)]
+    b = a.collect do |x|
+        sink x # $ hasValueFlow=65
+        x
+    end
+    sink b[0] # $ hasValueFlow=65
+end
 
-def m74
-    a = [0, 1, source(74.1)]
-    a.prepend(2, 3, source(74.2))
+# 66 max
+# 67 max_by
+# 68 min
+# 69 min_by
+# 70 minmax
+# 71 minmax_by
+# 72 none?
+# 73 one?
+# 74 partition
+
+def m75
+    a = [0, 1, source(75.1)]
+    a.prepend(2, 3, source(75.2))
     sink(a[0])
     sink(a[1])
-    sink(a[2]) # $ hasValueFlow=74.2
+    sink(a[2]) # $ hasValueFlow=75.2
     sink(a[3])
     sink(a[4])
-    sink(a[5]) # $ hasValueFlow=74.1
+    sink(a[5]) # $ hasValueFlow=75.1
 end
 
-# 75 reduce_inject
-# 76 reject
+# 76 reduce_inject
+# 77 reject
 
-def m77
-    a = [0, 1, 2, source(77.1)]
-    a.replace([source(77.2)])
-    sink(a[0]) # $ hasValueFlow=77.2
+def m78
+    a = [0, 1, 2, source(78.1)]
+    a.replace([source(78.2)])
+    sink(a[0]) # $ hasValueFlow=78.2
 end
 
-# 78 reverse_each
-# 79 select
-# 80 slice_after
-# 81 slice_before
-# 82 slice_when
-# 83 sort
-# 84 sort_by
-# 85 sum
-# 86 take
-# 87 take_while
-# 88 tally
+# 79 reverse_each
+# 80 select
+# 81 slice_after
+# 82 slice_before
+# 83 slice_when
+# 84 sort
+# 85 sort_by
+# 86 sum
+# 87 take
+# 88 take_while
+# 89 tally
 
-def m89
-    a = [0, 1, 2, source(89)]
+def m90
+    a = [0, 1, 2, source(90)]
     b = a.to_a
-    sink(b[3]) # $ hasValueFlow=89
+    sink(b[3]) # $ hasValueFlow=90
 end
 
-# 90 uniq
-# 91 zip
+# 91 uniq
+# 92 zip
