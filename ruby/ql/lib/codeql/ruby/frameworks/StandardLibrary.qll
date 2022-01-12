@@ -1557,6 +1557,159 @@ module Enumerable {
     }
   }
 
+  abstract private class MinOrMaxBySummary extends SummarizedCallable {
+    MethodCall mc;
+
+    bindingset[this]
+    MinOrMaxBySummary() { mc.getMethodName() = ["min_by", "max_by"] }
+
+    override MethodCall getACall() { result = mc }
+  }
+
+  private class MinOrMaxByNoArgSummary extends MinOrMaxBySummary {
+    MinOrMaxByNoArgSummary() {
+      this = "min_or_max_by_no_arg" and
+      mc.getNumberOfArguments() = 0
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = ["Parameter[0] of BlockArgument", "ReturnValue"] and
+      preservesValue = true
+    }
+  }
+
+  private class MinOrMaxByArgSummary extends MinOrMaxBySummary {
+    MinOrMaxByArgSummary() {
+      this = "min_or_max_by_arg" and
+      mc.getNumberOfArguments() > 0
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = ["Parameter[0] of BlockArgument", "ArrayElement[?] of ReturnValue"] and
+      preservesValue = true
+    }
+  }
+
+  abstract private class MinOrMaxSummary extends SummarizedCallable {
+    MethodCall mc;
+
+    bindingset[this]
+    MinOrMaxSummary() { mc.getMethodName() = ["min", "max"] }
+
+    override MethodCall getACall() { result = mc }
+  }
+
+  private class MinOrMaxNoArgNoBlockSummary extends MinOrMaxSummary {
+    MinOrMaxNoArgNoBlockSummary() {
+      this = "min_or_max_no_arg_no_block" and
+      mc.getNumberOfArguments() = 0 and
+      not exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = "ReturnValue" and
+      preservesValue = true
+    }
+  }
+
+  private class MinOrMaxArgNoBlockSummary extends MinOrMaxSummary {
+    MinOrMaxArgNoBlockSummary() {
+      this = "min_or_max_arg_no_block" and
+      mc.getNumberOfArguments() > 0 and
+      not exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = "ArrayElement[?] of ReturnValue" and
+      preservesValue = true
+    }
+  }
+
+  private class MinOrMaxNoArgBlockSummary extends MinOrMaxSummary {
+    MinOrMaxNoArgBlockSummary() {
+      this = "min_or_max_no_arg_block" and
+      mc.getNumberOfArguments() = 0 and
+      exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = ["Parameter[0] of BlockArgument", "Parameter[1] of BlockArgument", "ReturnValue"] and
+      preservesValue = true
+    }
+  }
+
+  private class MinOrMaxArgBlockSummary extends MinOrMaxSummary {
+    MinOrMaxArgBlockSummary() {
+      this = "min_or_max_arg_block" and
+      mc.getNumberOfArguments() > 0 and
+      exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output =
+        [
+          "Parameter[0] of BlockArgument", "Parameter[1] of BlockArgument",
+          "ArrayElement[?] of ReturnValue"
+        ] and
+      preservesValue = true
+    }
+  }
+
+  abstract private class MinmaxSummary extends SummarizedCallable {
+    MethodCall mc;
+
+    bindingset[this]
+    MinmaxSummary() { mc.getMethodName() = "minmax" }
+
+    override MethodCall getACall() { result = mc }
+  }
+
+  private class MinmaxNoArgNoBlockSummary extends MinmaxSummary {
+    MinmaxNoArgNoBlockSummary() {
+      this = "minmax_no_block" and
+      not exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = "ArrayElement[?] of ReturnValue" and
+      preservesValue = true
+    }
+  }
+
+  private class MinmaxBlockSummary extends MinmaxSummary {
+    MinmaxBlockSummary() {
+      this = "minmax_block" and
+      exists(mc.getBlock())
+    }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output =
+        [
+          "Parameter[0] of BlockArgument", "Parameter[1] of BlockArgument",
+          "ArrayElement[?] of ReturnValue"
+        ] and
+      preservesValue = true
+    }
+  }
+
+  private class MinmaxBySummary extends SimpleSummarizedCallable {
+    MinmaxBySummary() { this = "minmax_by" }
+
+    override predicate propagatesFlowExt(string input, string output, boolean preservesValue) {
+      input = "ArrayElement of Receiver" and
+      output = ["Parameter[0] of BlockArgument", "ArrayElement[?] of ReturnValue"] and
+      preservesValue = true
+    }
+  }
+
   private class SelectSummary extends SimpleSummarizedCallable {
     // `find_all` and `filter` are aliases of `select`.
     SelectSummary() { this = ["select", "find_all", "filter"] }

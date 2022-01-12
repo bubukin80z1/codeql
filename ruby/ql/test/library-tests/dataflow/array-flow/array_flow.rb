@@ -546,12 +546,124 @@ def m65
     sink b[0] # $ hasValueFlow=65
 end
 
-# 66 max
-# 67 max_by
-# 68 min
-# 69 min_by
-# 70 minmax
-# 71 minmax_by
+def m66
+    a = [0, 1, source(66)]
+
+    # No argument or block
+    b = a.max
+    sink(b) # $ hasValueFlow=66
+
+    # Argument, no block
+    c = a.max(3)
+    sink(c[0]) # $ hasValueFlow=66
+
+    # Block, no argument
+    d = a.max do |x, y|
+        sink x # $ hasValueFlow=66
+        sink y # $ hasValueFlow=66
+        x <=> y
+    end
+    sink(d) # $ hasValueFlow=66
+
+    # Block & argument
+    e = a.max(3) do |x, y|
+        sink x # $ hasValueFlow=66
+        sink y # $ hasValueFlow=66
+        x <=> y
+    end
+    sink(e[0]) # $ hasValueFlow=66
+end
+
+def m67
+    a = [0, 1, source(67)]
+
+    # No argument
+    b = a.max_by do |x|
+        sink x # $ hasValueFlow=67
+        x
+    end
+    sink(b) # $ hasValueFlow=67
+
+    # Argument
+    c = a.max_by(3) do |x|
+        sink x # $ hasValueFlow=67
+        x
+    end
+    sink(c[0]) # $ hasValueFlow=67
+end
+
+def m68
+    a = [0, 1, source(68)]
+
+    # No argument or block
+    b = a.min
+    sink(b) # $ hasValueFlow=68
+
+    # Argument, no block
+    c = a.min(3)
+    sink(c[0]) # $ hasValueFlow=68
+
+    # Block, no argument
+    d = a.min do |x, y|
+        sink x # $ hasValueFlow=68
+        sink y # $ hasValueFlow=68
+        x <=> y
+    end
+    sink(d) # $ hasValueFlow=68
+
+    # Block & argument
+    e = a.min(3) do |x, y|
+        sink x # $ hasValueFlow=68
+        sink y # $ hasValueFlow=68
+        x <=> y
+    end
+    sink(e[0]) # $ hasValueFlow=68
+end
+
+def m69
+    a = [0, 1, source(69)]
+
+    # No argument
+    b = a.min_by do |x|
+        sink x # $ hasValueFlow=69
+        x
+    end
+    sink(b) # $ hasValueFlow=69
+
+    # Argument
+    c = a.min_by(3) do |x|
+        sink x # $ hasValueFlow=69
+        x
+    end
+    sink(c[0]) # $ hasValueFlow=69
+end
+
+def m70
+    a = [0, 1, source(70)]
+
+    b = a.minmax
+    sink b[0] # $ hasValueFlow=70
+    sink b[1] # $ hasValueFlow=70
+
+    c = a.minmax do |x, y|
+        sink x # $ hasValueFlow=70
+        sink y # $ hasValueFlow=70
+        x <=> y
+    end
+    sink c[0] # $ hasValueFlow=70
+    sink c[1] # $ hasValueFlow=70
+end
+
+def m71
+    a = [0, 1, source(71)]
+    b = a.minmax_by do |x|
+        sink x # $ hasValueFlow=71
+        x
+    end
+    sink b[0] # $ hasValueFlow=71
+    sink b[1] # $ hasValueFlow=71
+end
+
 # 72 none?
 # 73 one?
 # 74 partition
